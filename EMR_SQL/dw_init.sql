@@ -3,18 +3,21 @@ SET hive.exec.dynamic.partition.mode = "nonstrict";
 DROP DATABASE IF EXISTS {wh_db}_{scale_factor} cascade;
 CREATE DATABASE {wh_db}_{scale_factor};
 CREATE DATABASE IF NOT EXISTS {wh_db}_{scale_factor}_stage;
+
 DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.ProspectIncremental;
-DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.finwire;
+DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.Finwire;
+DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
 
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}_stage.FinWire (
+
+ CREATE TABLE {wh_db}_{scale_factor}_stage.FinWire (
   value STRING COMMENT 'Pre-parsed String Values of all FinWire files',
   rectype STRING COMMENT 'Indicates the type of table into which this record will eventually be parsed: CMP FIN or SEC'
 ) PARTITIONED BY (rectype);
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}_stage.ProspectIncremental (
+ CREATE TABLE {wh_db}_{scale_factor}_stage.ProspectIncremental (
   agencyid STRING COMMENT 'Unique identifier from agency',
   lastname STRING COMMENT 'Last name',
   firstname STRING COMMENT 'First name',
@@ -44,7 +47,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}_stage.ProspectIncremental (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.TaxRate (
+ CREATE TABLE {wh_db}_{scale_factor}.TaxRate (
   tx_id STRING NOT NULL COMMENT 'Tax rate code',
   tx_name STRING NOT NULL COMMENT 'Tax rate description',
   tx_rate FLOAT NOT NULL COMMENT 'Tax rate',
@@ -53,7 +56,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.TaxRate (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.BatchDate (
+ CREATE TABLE {wh_db}_{scale_factor}.BatchDate (
   batchdate DATE NOT NULL COMMENT 'Batch date',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   CONSTRAINT batchdate_pk PRIMARY KEY(batchdate)
@@ -61,7 +64,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.BatchDate (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimDate (
+ CREATE TABLE {wh_db}_{scale_factor}.DimDate (
   sk_dateid BIGINT NOT NULL COMMENT 'Surrogate key for the date',
   datevalue DATE NOT NULL COMMENT 'The date stored appropriately for doing comparisons in the Data Warehouse',
   datedesc STRING NOT NULL COMMENT 'The date in full written form e.g. July 7 2004',
@@ -85,7 +88,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimDate (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimTime (
+ CREATE TABLE {wh_db}_{scale_factor}.DimTime (
   sk_timeid BIGINT NOT NULL COMMENT 'Surrogate key for the time',
   timevalue STRING NOT NULL COMMENT 'The time stored appropriately for doing',
   hourid INT NOT NULL COMMENT 'Hour number as a number e.g. 01',
@@ -101,7 +104,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimTime (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.StatusType (
+ CREATE TABLE {wh_db}_{scale_factor}.StatusType (
   st_id STRING NOT NULL COMMENT 'Status code',
   st_name STRING NOT NULL COMMENT 'Status description',
   CONSTRAINT statustype_pk PRIMARY KEY(st_name)
@@ -109,7 +112,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.StatusType (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.industry (
+ CREATE TABLE {wh_db}_{scale_factor}.industry (
   in_id STRING NOT NULL COMMENT 'Industry code',
   in_name STRING NOT NULL COMMENT 'Industry description',
   in_sc_id STRING NOT NULL COMMENT 'Sector identifier',
@@ -118,7 +121,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.industry (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.TradeType (
+ CREATE TABLE {wh_db}_{scale_factor}.TradeType (
   tt_id STRING NOT NULL COMMENT 'Trade type code',
   tt_name STRING NOT NULL COMMENT 'Trade type description',
   tt_is_sell INT NOT NULL COMMENT 'Flag indicating a sale',
@@ -128,7 +131,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.TradeType (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimBroker (
+ CREATE TABLE {wh_db}_{scale_factor}.DimBroker (
   sk_brokerid BIGINT NOT NULL COMMENT 'Surrogate key for broker',
   brokerid BIGINT NOT NULL COMMENT 'Natural key for broker',
   managerid BIGINT COMMENT 'Natural key for manager’s HR record',
@@ -147,7 +150,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimBroker (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimCustomer (
+ CREATE TABLE {wh_db}_{scale_factor}.DimCustomer (
   sk_customerid BIGINT NOT NULL COMMENT 'Surrogate key for CustomerID',
   customerid BIGINT NOT NULL COMMENT 'Customer identifier',
   taxid STRING NOT NULL COMMENT 'Customer’s tax identifier',
@@ -186,7 +189,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimCustomer (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimCompany (
+ CREATE TABLE {wh_db}_{scale_factor}.DimCompany (
   sk_companyid BIGINT NOT NULL COMMENT 'Surrogate key for CompanyID',
   companyid BIGINT NOT NULL COMMENT 'Company identifier (CIK number)',
   status STRING NOT NULL COMMENT 'Company status',
@@ -214,7 +217,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimCompany (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimAccount (
+ CREATE TABLE {wh_db}_{scale_factor}.DimAccount (
   sk_accountid BIGINT NOT NULL COMMENT 'Surrogate key for AccountID',
   accountid BIGINT NOT NULL COMMENT 'Customer account identifier',
   sk_brokerid BIGINT NOT NULL COMMENT 'Surrogate key of managing broker',
@@ -233,7 +236,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimAccount (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimSecurity (
+ CREATE TABLE {wh_db}_{scale_factor}.DimSecurity (
   sk_securityid BIGINT NOT NULL COMMENT 'Surrogate key for Symbol',
   symbol STRING NOT NULL COMMENT 'Identifies security on ticker',
   issue STRING NOT NULL COMMENT 'Issue type',
@@ -256,7 +259,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimSecurity (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.Prospect (
+ CREATE TABLE {wh_db}_{scale_factor}.Prospect (
   agencyid STRING NOT NULL COMMENT 'Unique identifier from agency',
   sk_recorddateid BIGINT NOT NULL COMMENT 'Last date this prospect appeared in input',
   sk_updatedateid BIGINT NOT NULL COMMENT 'Latest change date for this prospect',
@@ -289,7 +292,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.Prospect (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.Financial (
+ CREATE TABLE {wh_db}_{scale_factor}.Financial (
   sk_companyid BIGINT NOT NULL COMMENT 'Company SK.',
   fi_year INT NOT NULL COMMENT 'Year of the quarter end.',
   fi_qtr INT NOT NULL COMMENT 'Quarter number that the financial information is for: valid values 1, 2, 3, 4.',
@@ -310,7 +313,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.Financial (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimTrade (
+ CREATE TABLE {wh_db}_{scale_factor}.DimTrade (
   tradeid INT NOT NULL COMMENT 'Trade identifier',
   sk_brokerid BIGINT NOT NULL COMMENT 'Surrogate key for BrokerID',
   sk_createdateid BIGINT NOT NULL COMMENT 'Surrogate key for date created',
@@ -346,7 +349,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.DimTrade (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.FactHoldings (
+ CREATE TABLE {wh_db}_{scale_factor}.FactHoldings (
   tradeid INT NOT NULL COMMENT 'Key for Orignial Trade Indentifier',
   currenttradeid INT NOT NULL COMMENT 'Key for the current trade',
   sk_customerid BIGINT NOT NULL COMMENT 'Surrogate key for Customer Identifier',
@@ -371,7 +374,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.FactHoldings (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.FactCashBalances (
+ CREATE TABLE {wh_db}_{scale_factor}.FactCashBalances (
   sk_customerid BIGINT NOT NULL COMMENT 'Surrogate key for CustomerID',
   sk_accountid BIGINT NOT NULL COMMENT 'Surrogate key for AccountID',
   sk_dateid BIGINT NOT NULL COMMENT 'Surrogate key for the date',
@@ -385,7 +388,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.FactCashBalances (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.FactMarketHistory (
+ CREATE TABLE {wh_db}_{scale_factor}.FactMarketHistory (
   sk_securityid BIGINT NOT NULL COMMENT 'Surrogate key for SecurityID',
   sk_companyid BIGINT NOT NULL COMMENT 'Surrogate key for CompanyID',
   sk_dateid BIGINT NOT NULL COMMENT 'Surrogate key for the date',
@@ -408,7 +411,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.FactMarketHistory (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.FactWatches (
+ CREATE TABLE {wh_db}_{scale_factor}.FactWatches (
   sk_customerid BIGINT NOT NULL COMMENT 'Customer associated with watch list',
   sk_securityid BIGINT NOT NULL COMMENT 'Security listed on watch list',
   sk_dateid_dateplaced BIGINT NOT NULL COMMENT 'Date the watch list item was added',
@@ -429,7 +432,7 @@ CREATE OR REPLACE TABLE {wh_db}_{scale_factor}.FactWatches (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_BatchDate AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_BatchDate AS
 SELECT
   DATE(val [0]) batchdate,
   INT(batchid) batchid
@@ -444,7 +447,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_FinWire AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_FinWire AS
 SELECT
   value,
   substring(value, 16, 3) rectype
@@ -453,7 +456,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_CustomerIncremental AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_CustomerIncremental AS
 with c as (
   SELECT
     try_cast(val[2] as BIGINT) customerid,
@@ -552,7 +555,7 @@ FROM c
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_AccountIncremental AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_AccountIncremental AS
 SELECT
   try_cast(val[2] as BIGINT) accountid,
   try_cast(val[3] as BIGINT) brokerid,
@@ -572,7 +575,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_TradeIncremental AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_TradeIncremental AS
 SELECT
   val[0] cdc_flag,
   try_cast(val[2] as BIGINT) tradeid,
@@ -598,7 +601,7 @@ FROM (
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_Trade AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_Trade AS
 SELECT
   try_cast(val[0] as BIGINT) t_id,
   try_cast(val[1] as TIMESTAMP) t_dts,
@@ -625,7 +628,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_TradeHistory AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_TradeHistory AS
 SELECT
   try_cast(val[0] as BIGINT) tradeid,
   try_cast(val[1] as TIMESTAMP) th_dts,
@@ -640,7 +643,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_HR AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_HR AS
 SELECT
   try_cast(val[0] as BIGINT) employeeid,
   try_cast(val[1] as BIGINT) managerid,
@@ -661,7 +664,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_CashTransactionIncremental AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_CashTransactionIncremental AS
 with CashTransactions as (
   SELECT
     try_cast(val[0] as BIGINT) accountid,
@@ -705,7 +708,7 @@ FROM CashTransactions;
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_HoldingHistory AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_HoldingHistory AS
 SELECT
   try_cast(val[0] as INT) hh_h_t_id,
   try_cast(val[1] as INT) hh_t_id,
@@ -722,7 +725,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_HoldingIncremental AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_HoldingIncremental AS
 SELECT
   try_cast(val[2] as INT) hh_h_t_id,
   try_cast(val[3] as INT) hh_t_id,
@@ -740,7 +743,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_DailyMarketIncremental AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_DailyMarketIncremental AS
 WITH dailymarkethistorical as (
   SELECT
     try_cast(val[0] as DATE) dm_date,
@@ -804,7 +807,7 @@ from DailyMarket dm
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_WatchHistory AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_WatchHistory AS
 SELECT
   try_cast(val[0] as BIGINT) w_c_id,
   val[1] w_s_symb,
@@ -821,7 +824,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_WatchIncremental AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_WatchIncremental AS
 SELECT
   try_cast(val[2] as BIGINT) w_c_id,
   val[3] w_s_symb,
@@ -839,7 +842,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_Prospect AS
+CREATE  VIEW {wh_db}_{scale_factor}_stage.v_Prospect AS
 with p as (
   select 
     max_by(array_append(val, batchid), batchid) val,
