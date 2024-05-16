@@ -50,14 +50,14 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
  CREATE TABLE {wh_db}_{scale_factor}.TaxRate (
   tx_id STRING NOT NULL COMMENT 'Tax rate code',
   tx_name STRING NOT NULL COMMENT 'Tax rate description',
-  tx_rate FLOAT NOT NULL COMMENT 'Tax rate',
+  tx_rate FLOAT NOT NULL COMMENT 'Tax rate'
 );
 
 -- COMMAND ----------
 
  CREATE TABLE {wh_db}_{scale_factor}.BatchDate (
   batchdate DATE NOT NULL COMMENT 'Batch date',
-  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
+  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 );
 
 -- COMMAND ----------
@@ -80,7 +80,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   fiscalyeardesc STRING NOT NULL COMMENT 'Fiscal year as text e.g. 2005',
   fiscalqtrid INT NOT NULL COMMENT 'Fiscal quarter as a number e.g. 20051',
   fiscalqtrdesc STRING NOT NULL COMMENT 'Fiscal quarter as text e.g. 2005 Q1',
-  holidayflag BOOLEAN COMMENT 'Indicates holidays',
+  holidayflag BOOLEAN COMMENT 'Indicates holidays'
 );
 
 -- COMMAND ----------
@@ -95,14 +95,14 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   secondid INT NOT NULL COMMENT 'Second as a number e.g. 45',
   seconddesc STRING NOT NULL COMMENT 'Second as text e.g. 01:23:45',
   markethoursflag BOOLEAN COMMENT 'Indicates a time during market hours',
-  officehoursflag BOOLEAN COMMENT 'Indicates a time during office hours',
+  officehoursflag BOOLEAN COMMENT 'Indicates a time during office hours'
 );
 
 -- COMMAND ----------
 
  CREATE TABLE {wh_db}_{scale_factor}.StatusType (
   st_id STRING NOT NULL COMMENT 'Status code',
-  st_name STRING NOT NULL COMMENT 'Status description',
+  st_name STRING NOT NULL COMMENT 'Status description'
 );
 
 -- COMMAND ----------
@@ -110,7 +110,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
  CREATE TABLE {wh_db}_{scale_factor}.industry (
   in_id STRING NOT NULL COMMENT 'Industry code',
   in_name STRING NOT NULL COMMENT 'Industry description',
-  in_sc_id STRING NOT NULL COMMENT 'Sector identifier',
+  in_sc_id STRING NOT NULL COMMENT 'Sector identifier'
 );
 
 -- COMMAND ----------
@@ -119,7 +119,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   tt_id STRING NOT NULL COMMENT 'Trade type code',
   tt_name STRING NOT NULL COMMENT 'Trade type description',
   tt_is_sell INT NOT NULL COMMENT 'Flag indicating a sale',
-  tt_is_mrkt INT NOT NULL COMMENT 'Flag indicating a market order',
+  tt_is_mrkt INT NOT NULL COMMENT 'Flag indicating a market order'
 );
 
 -- COMMAND ----------
@@ -137,7 +137,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   iscurrent BOOLEAN NOT NULL COMMENT 'True if this is the current record',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
-  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
+  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 );
 
 -- COMMAND ----------
@@ -200,7 +200,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   iscurrent BOOLEAN NOT NULL COMMENT 'True if this is the current record',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
-  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
+  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 );
 
 -- COMMAND ----------
@@ -287,7 +287,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   fi_assets DOUBLE NOT NULL COMMENT 'Value of total assets at the end of the quarter.',
   fi_liability DOUBLE NOT NULL COMMENT 'Value of total liabilities at the end of the quarter.',
   fi_out_basic BIGINT NOT NULL COMMENT 'Average number of shares outstanding (basic).',
-  fi_out_dilut BIGINT NOT NULL COMMENT 'Average number of shares outstanding (diluted).',
+  fi_out_dilut BIGINT NOT NULL COMMENT 'Average number of shares outstanding (diluted).'
 );
 
 -- COMMAND ----------
