@@ -374,12 +374,12 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
 -- COMMAND ----------
 
 -- MAGIC %md
--- MAGIC # Create Views to simplify later stages
+-- MAGIC # CREATE VIEW s to simplify later stages
 -- MAGIC Especially those called by external tools like dbt
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_BatchDate AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_BatchDate AS
 SELECT
   DATE(val [0]) batchdate,
   INT(batchid) batchid
@@ -394,7 +394,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_FinWire AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_FinWire AS
 SELECT
   value,
   substring(value, 16, 3) rectype
@@ -403,7 +403,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_CustomerIncremental AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_CustomerIncremental AS
 with c as (
   SELECT
     try_cast(val[2] as BIGINT) customerid,
@@ -502,7 +502,7 @@ FROM c;
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_AccountIncremental AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_AccountIncremental AS
 SELECT
   try_cast(val[2] as BIGINT) accountid,
   try_cast(val[3] as BIGINT) brokerid,
@@ -522,7 +522,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_TradeIncremental AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_TradeIncremental AS
 SELECT
   val[0] cdc_flag,
   try_cast(val[2] as BIGINT) tradeid,
@@ -548,7 +548,7 @@ FROM (
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_Trade AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_Trade AS
 SELECT
   try_cast(val[0] as BIGINT) t_id,
   try_cast(val[1] as TIMESTAMP) t_dts,
@@ -575,7 +575,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_TradeHistory AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_TradeHistory AS
 SELECT
   try_cast(val[0] as BIGINT) tradeid,
   try_cast(val[1] as TIMESTAMP) th_dts,
@@ -590,7 +590,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_HR AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_HR AS
 SELECT
   try_cast(val[0] as BIGINT) employeeid,
   try_cast(val[1] as BIGINT) managerid,
@@ -611,7 +611,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_CashTransactionIncremental AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_CashTransactionIncremental AS
 with CashTransactions as (
   SELECT
     try_cast(val[0] as BIGINT) accountid,
@@ -655,7 +655,7 @@ FROM CashTransactions;
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_HoldingHistory AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_HoldingHistory AS
 SELECT
   try_cast(val[0] as INT) hh_h_t_id,
   try_cast(val[1] as INT) hh_t_id,
@@ -672,7 +672,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_HoldingIncremental AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_HoldingIncremental AS
 SELECT
   try_cast(val[2] as INT) hh_h_t_id,
   try_cast(val[3] as INT) hh_t_id,
@@ -690,7 +690,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_DailyMarketIncremental AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_DailyMarketIncremental AS
 WITH dailymarkethistorical as (
   SELECT
     try_cast(val[0] as DATE) dm_date,
@@ -754,7 +754,7 @@ from DailyMarket dm;
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_WatchHistory AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_WatchHistory AS
 SELECT
   try_cast(val[0] as BIGINT) w_c_id,
   val[1] w_s_symb,
@@ -771,7 +771,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_WatchIncremental AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_WatchIncremental AS
 SELECT
   try_cast(val[2] as BIGINT) w_c_id,
   val[3] w_s_symb,
@@ -789,7 +789,7 @@ FROM
 
 -- COMMAND ----------
 
-CREATE  VIEW {wh_db}_{scale_factor}_stage.v_Prospect AS
+CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_Prospect AS
 with p as (
   select 
     max_by(array_append(val, batchid), batchid) val,
