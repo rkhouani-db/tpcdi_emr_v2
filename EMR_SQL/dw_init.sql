@@ -330,7 +330,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   currentprice DOUBLE COMMENT 'Unit price of this security for the current trade',
   currentholding INT NOT NULL COMMENT 'Quantity of a security held after the current trade.',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
-)
+);
 
 -- COMMAND ----------
 
@@ -340,7 +340,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   sk_dateid BIGINT NOT NULL COMMENT 'Surrogate key for the date',
   cash DOUBLE NOT NULL COMMENT 'Cash balance for the account after applying',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
-)
+);
 
 -- COMMAND ----------
 
@@ -359,7 +359,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   daylow DOUBLE NOT NULL COMMENT 'Lowest price for the security on this day',
   volume INT NOT NULL COMMENT 'Trading volume of the security on this day',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
-)
+);
 
 -- COMMAND ----------
 
