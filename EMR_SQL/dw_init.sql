@@ -217,7 +217,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
-) 
+); 
 
 -- COMMAND ----------
 
@@ -237,7 +237,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
-) 
+);
 
 -- COMMAND ----------
 
@@ -269,7 +269,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   numbercreditcards INT COMMENT 'Credit cards',
   networth INT COMMENT 'Estimated total net worth',
   marketingnameplate STRING COMMENT 'For marketing purposes'
-) 
+);
 
 -- COMMAND ----------
 
@@ -314,7 +314,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   commission DOUBLE COMMENT 'Commission earned on this trade',
   tax DOUBLE COMMENT 'Amount of tax due on this trade',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
-) 
+);
 
 -- COMMAND ----------
 
@@ -369,7 +369,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   sk_dateid_dateplaced BIGINT NOT NULL COMMENT 'Date the watch list item was added',
   sk_dateid_dateremoved BIGINT COMMENT 'Date the watch list item was removed',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
-) 
+);
 
 -- COMMAND ----------
 
