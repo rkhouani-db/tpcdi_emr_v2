@@ -498,7 +498,7 @@ SELECT
   nullif(lcl_tx_id, '') lcl_tx_id,
   nullif(nat_tx_id, '') nat_tx_id,
   batchid
-FROM c
+FROM c;
 
 -- COMMAND ----------
 
@@ -544,7 +544,7 @@ FROM (
   SELECT 
     split(value, "[|]") val, 
     substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
-  FROM text.`{tpcdi_directory}/sf={scale_factor}/Batch[23]/Trade.txt`)
+  FROM text.`{tpcdi_directory}/sf={scale_factor}/Batch[23]/Trade.txt`);
 
 -- COMMAND ----------
 
@@ -750,7 +750,7 @@ select
   bigint(date_format(fiftytwoweekhigh.dm_date, 'yyyyMMdd')) sk_fiftytwoweekhighdate,
   fiftytwoweeklow.dm_low fiftytwoweeklow,
   bigint(date_format(fiftytwoweeklow.dm_date, 'yyyyMMdd')) sk_fiftytwoweeklowdate
-from DailyMarket dm
+from DailyMarket dm;
 
 -- COMMAND ----------
 
@@ -853,4 +853,4 @@ SELECT
   val[22] recordbatchid,
   batchid
 FROM p
-where val[22] = 3
+where val[22] = 3;
