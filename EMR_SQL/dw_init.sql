@@ -175,7 +175,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   iscurrent BOOLEAN NOT NULL COMMENT 'True if this is the current record',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
-  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
+  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 ) TBLPROPERTIES ('delta.dataSkippingNumIndexedCols' = 33);
 
 -- COMMAND ----------
@@ -216,7 +216,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   iscurrent BOOLEAN NOT NULL COMMENT 'True if this is the current record',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
-  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
+  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 ) 
 
 -- COMMAND ----------
@@ -236,7 +236,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   iscurrent BOOLEAN NOT NULL COMMENT 'True if this is the current record',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
-  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
+  enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 ) 
 
 -- COMMAND ----------
@@ -268,7 +268,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   employer STRING COMMENT 'Name of employer',
   numbercreditcards INT COMMENT 'Credit cards',
   networth INT COMMENT 'Estimated total net worth',
-  marketingnameplate STRING COMMENT 'For marketing purposes',
+  marketingnameplate STRING COMMENT 'For marketing purposes'
 ) 
 
 -- COMMAND ----------
