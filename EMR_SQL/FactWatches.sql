@@ -1,4 +1,3 @@
--- Databricks notebook source
 INSERT INTO {wh_db}_{scale_factor}.FactWatches
 with Watches as (
   SELECT 

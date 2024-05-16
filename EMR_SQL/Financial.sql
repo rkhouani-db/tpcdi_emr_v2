@@ -1,4 +1,3 @@
--- Databricks notebook source
 INSERT INTO {wh_db}_{scale_factor}.Financial
 WITH FIN as (
   SELECT

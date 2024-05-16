@@ -1,18 +1,3 @@
--- Databricks notebook source
--- CREATE WIDGET DROPDOWN wh_timezone DEFAULT "" CHOICES SELECT * FROM (VALUES (""), ("set timezone = GMT;"));
--- CREATE WIDGET DROPDOWN scale_factor DEFAULT "10" CHOICES SELECT * FROM (VALUES ("10"), ("100"), ("1000"), ("5000"), ("10000"));
--- CREATE WIDGET TEXT tpcdi_directory DEFAULT "/Volumes/tpcdi/tpcdi_raw_data/tpcdi_volume/";
--- CREATE WIDGET TEXT wh_db DEFAULT '';
--- CREATE WIDGET TEXT catalog DEFAULT 'tpcdi';
-
--- COMMAND ----------
-
--- ONLY use for DBSQL workflows since default for DBSQL is with localization and can cause issues with DST.
--- Pass empty string for a cluster - especially serverless workflows since serverless clusters do not accept this set command and will fail
---{wh_timezone} 
-
--- COMMAND ----------
-
 INSERT OVERWRITE {wh_db}_{scale_factor}.DimTrade
 WITH TradeIncremental AS (
   SELECT

@@ -1,4 +1,3 @@
--- Databricks notebook source
 INSERT INTO {wh_db}_{scale_factor}.DimBroker
 SELECT
   employeeid sk_brokerid,

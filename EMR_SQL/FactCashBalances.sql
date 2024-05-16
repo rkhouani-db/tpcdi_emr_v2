@@ -1,4 +1,4 @@
--- Databricks notebook source
+
 INSERT INTO {wh_db}_{scale_factor}.FactCashBalances
 SELECT
   a.sk_customerid, 

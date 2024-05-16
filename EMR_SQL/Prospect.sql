@@ -1,4 +1,3 @@
--- Databricks notebook source
 INSERT OVERWRITE {wh_db}_{scale_factor}.Prospect
 with cust as (
   SELECT 

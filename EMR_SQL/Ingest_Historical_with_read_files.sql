@@ -1,4 +1,3 @@
--- Databricks notebook source
 INSERT INTO {tgt_db}.{table}
 SELECT {tgt_query}
 FROM read_files(

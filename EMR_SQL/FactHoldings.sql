@@ -1,4 +1,3 @@
--- Databricks notebook source
 INSERT INTO {wh_db}_{scale_factor}.FactHoldings 
 WITH Holdings as (
   SELECT * FROM {wh_db}_{scale_factor}_stage.v_HoldingHistory
