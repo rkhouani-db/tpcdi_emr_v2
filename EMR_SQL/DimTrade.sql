@@ -9,7 +9,7 @@
 
 -- ONLY use for DBSQL workflows since default for DBSQL is with localization and can cause issues with DST.
 -- Pass empty string for a cluster - especially serverless workflows since serverless clusters do not accept this set command and will fail
-{wh_timezone} 
+--{wh_timezone} 
 
 -- COMMAND ----------
 
