@@ -116,3 +116,4 @@ SELECT
 FROM account_cust_updates a
 JOIN {wh_db}_{scale_factor}.DimBroker b 
   ON a.brokerid = b.brokerid
+;

@@ -69,4 +69,4 @@ FROM read_files(
   inferSchema => False, 
   rowTag => "TPCDI:Action",
   fileNamePattern => "CustomerMgmt.xml"
-)
+);

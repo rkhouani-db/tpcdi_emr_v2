@@ -163,3 +163,4 @@ JOIN {wh_db}_{scale_factor}.DimAccount da
     trade.t_ca_id = da.accountid 
     AND date(create_ts) >= da.effectivedate 
     AND date(create_ts) < da.enddate
+;

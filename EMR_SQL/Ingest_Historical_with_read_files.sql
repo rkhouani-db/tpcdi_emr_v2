@@ -9,4 +9,4 @@ FROM read_files(
   sep => "|",
   fileNamePattern => "{filename}", 
   schema => "{raw_schema}"
-)
+);

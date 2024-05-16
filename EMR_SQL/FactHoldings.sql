@@ -20,3 +20,4 @@ SELECT
 FROM Holdings h
   JOIN {wh_db}_{scale_factor}.DimTrade dt 
     ON tradeid = hh_t_id
+;

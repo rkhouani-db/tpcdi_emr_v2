@@ -279,3 +279,4 @@ LEFT JOIN {wh_db}_{scale_factor}_stage.ProspectIncremental p
     and upper(nvl(p.addressline2, '')) = upper(nvl(c.addressline2, ''))
     and upper(p.postalcode) = upper(c.postalcode)
 WHERE c.effectivedate < c.enddate
+;

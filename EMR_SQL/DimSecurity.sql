@@ -96,3 +96,4 @@ SELECT
   enddate
 FROM SEC_final
 WHERE effectivedate < enddate;
+;
