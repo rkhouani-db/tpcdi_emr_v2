@@ -51,7 +51,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   tx_id STRING NOT NULL COMMENT 'Tax rate code',
   tx_name STRING NOT NULL COMMENT 'Tax rate description',
   tx_rate FLOAT NOT NULL COMMENT 'Tax rate',
-  CONSTRAINT taxrate_pk PRIMARY KEY(tx_id)
 );
 
 -- COMMAND ----------
@@ -59,7 +58,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
  CREATE TABLE {wh_db}_{scale_factor}.BatchDate (
   batchdate DATE NOT NULL COMMENT 'Batch date',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
-  CONSTRAINT batchdate_pk PRIMARY KEY(batchdate)
 );
 
 -- COMMAND ----------
@@ -83,7 +81,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   fiscalqtrid INT NOT NULL COMMENT 'Fiscal quarter as a number e.g. 20051',
   fiscalqtrdesc STRING NOT NULL COMMENT 'Fiscal quarter as text e.g. 2005 Q1',
   holidayflag BOOLEAN COMMENT 'Indicates holidays',
-  CONSTRAINT dimdate_pk PRIMARY KEY(sk_dateid)
 );
 
 -- COMMAND ----------
@@ -99,7 +96,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   seconddesc STRING NOT NULL COMMENT 'Second as text e.g. 01:23:45',
   markethoursflag BOOLEAN COMMENT 'Indicates a time during market hours',
   officehoursflag BOOLEAN COMMENT 'Indicates a time during office hours',
-  CONSTRAINT dimtime_pk PRIMARY KEY(sk_timeid)
 );
 
 -- COMMAND ----------
@@ -107,7 +103,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
  CREATE TABLE {wh_db}_{scale_factor}.StatusType (
   st_id STRING NOT NULL COMMENT 'Status code',
   st_name STRING NOT NULL COMMENT 'Status description',
-  CONSTRAINT statustype_pk PRIMARY KEY(st_name)
 );
 
 -- COMMAND ----------
@@ -116,7 +111,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   in_id STRING NOT NULL COMMENT 'Industry code',
   in_name STRING NOT NULL COMMENT 'Industry description',
   in_sc_id STRING NOT NULL COMMENT 'Sector identifier',
-  CONSTRAINT industry_pk PRIMARY KEY(in_name)
 );
 
 -- COMMAND ----------
@@ -126,7 +120,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   tt_name STRING NOT NULL COMMENT 'Trade type description',
   tt_is_sell INT NOT NULL COMMENT 'Flag indicating a sale',
   tt_is_mrkt INT NOT NULL COMMENT 'Flag indicating a market order',
-  CONSTRAINT tradetype_pk PRIMARY KEY(tt_id)
 );
 
 -- COMMAND ----------
@@ -145,7 +138,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
-  CONSTRAINT dimbroker_pk PRIMARY KEY(sk_brokerid)
 );
 
 -- COMMAND ----------
@@ -184,7 +176,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
-  CONSTRAINT dimcustomer_pk PRIMARY KEY(sk_customerid)
 ) TBLPROPERTIES ('delta.dataSkippingNumIndexedCols' = 33);
 
 -- COMMAND ----------
@@ -210,9 +201,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
-  CONSTRAINT dimcompany_pk PRIMARY KEY(sk_companyid),
-  CONSTRAINT dimcompany_status_fk FOREIGN KEY (status) REFERENCES {wh_db}_{scale_factor}.StatusType(st_name),
-  CONSTRAINT dimcompany_industry_fk FOREIGN KEY (industry) REFERENCES {wh_db}_{scale_factor}.Industry(in_name)
 );
 
 -- COMMAND ----------
@@ -229,9 +217,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
-  CONSTRAINT dimaccount_pk PRIMARY KEY(sk_accountid),
-  CONSTRAINT dimaccount_customer_fk FOREIGN KEY (sk_customerid) REFERENCES {wh_db}_{scale_factor}.DimCustomer(sk_customerid),
-  CONSTRAINT dimaccount_broker_fk FOREIGN KEY (sk_brokerid) REFERENCES {wh_db}_{scale_factor}.DimBroker(sk_brokerid)
 ) 
 
 -- COMMAND ----------
@@ -252,9 +237,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.',
-  CONSTRAINT dimsecurity_pk PRIMARY KEY(sk_securityid),
-  CONSTRAINT dimsecurity_status_fk FOREIGN KEY (status) REFERENCES {wh_db}_{scale_factor}.StatusType(st_name),
-  CONSTRAINT dimsecurity_company_fk FOREIGN KEY (sk_companyid) REFERENCES {wh_db}_{scale_factor}.DimCompany(sk_companyid)
 ) 
 
 -- COMMAND ----------
@@ -287,7 +269,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   numbercreditcards INT COMMENT 'Credit cards',
   networth INT COMMENT 'Estimated total net worth',
   marketingnameplate STRING COMMENT 'For marketing purposes',
-  CONSTRAINT prospect_pk PRIMARY KEY(agencyid)
 ) 
 
 -- COMMAND ----------
@@ -307,8 +288,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   fi_liability DOUBLE NOT NULL COMMENT 'Value of total liabilities at the end of the quarter.',
   fi_out_basic BIGINT NOT NULL COMMENT 'Average number of shares outstanding (basic).',
   fi_out_dilut BIGINT NOT NULL COMMENT 'Average number of shares outstanding (diluted).',
-  CONSTRAINT financial_pk PRIMARY KEY(sk_companyid, fi_year, fi_qtr),
-  CONSTRAINT financial_company_fk FOREIGN KEY (sk_companyid) REFERENCES {wh_db}_{scale_factor}.DimCompany(sk_companyid)
 );
 
 -- COMMAND ----------
@@ -334,17 +313,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   fee DOUBLE COMMENT 'Fee charged for placing this trade request',
   commission DOUBLE COMMENT 'Commission earned on this trade',
   tax DOUBLE COMMENT 'Amount of tax due on this trade',
-  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
-  CONSTRAINT dimtrade_pk PRIMARY KEY(tradeid),
-  CONSTRAINT dimtrade_security_fk FOREIGN KEY (sk_securityid) REFERENCES {wh_db}_{scale_factor}.DimSecurity(sk_securityid),
-  CONSTRAINT dimtrade_company_fk FOREIGN KEY (sk_companyid) REFERENCES {wh_db}_{scale_factor}.DimCompany(sk_companyid),
-  CONSTRAINT dimtrade_broker_fk FOREIGN KEY (sk_brokerid) REFERENCES {wh_db}_{scale_factor}.DimBroker(sk_brokerid),
-  CONSTRAINT dimtrade_account_fk FOREIGN KEY (sk_accountid) REFERENCES {wh_db}_{scale_factor}.DimAccount(sk_accountid),
-  CONSTRAINT dimtrade_customer_fk FOREIGN KEY (sk_customerid) REFERENCES {wh_db}_{scale_factor}.DimCustomer(sk_customerid),
-  CONSTRAINT dimtrade_createdate_fk FOREIGN KEY (sk_createdateid) REFERENCES {wh_db}_{scale_factor}.DimDate(sk_dateid),
-  CONSTRAINT dimtrade_closedate_fk FOREIGN KEY (sk_closedateid) REFERENCES {wh_db}_{scale_factor}.DimDate(sk_dateid),
-  CONSTRAINT dimtrade_createtime_fk FOREIGN KEY (sk_createtimeid) REFERENCES {wh_db}_{scale_factor}.DimTime(sk_timeid),
-  CONSTRAINT dimtrade_closetime_fk FOREIGN KEY (sk_closetimeid) REFERENCES {wh_db}_{scale_factor}.DimTime(sk_timeid)
+  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 ) 
 
 -- COMMAND ----------
@@ -360,16 +329,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   sk_timeid BIGINT COMMENT 'Surrogate key for the time associated with the',
   currentprice DOUBLE COMMENT 'Unit price of this security for the current trade',
   currentholding INT NOT NULL COMMENT 'Quantity of a security held after the current trade.',
-  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
-  CONSTRAINT factholdings_pk PRIMARY KEY(currenttradeid),
-  CONSTRAINT factholdings_security_fk FOREIGN KEY (sk_securityid) REFERENCES {wh_db}_{scale_factor}.DimSecurity(sk_securityid),
-  CONSTRAINT factholdings_company_fk FOREIGN KEY (sk_companyid) REFERENCES {wh_db}_{scale_factor}.DimCompany(sk_companyid),
-  CONSTRAINT factholdings_trade_fk FOREIGN KEY (tradeid) REFERENCES {wh_db}_{scale_factor}.DimTrade(tradeid),
-  CONSTRAINT factholdings_currenttrade_fk FOREIGN KEY (currenttradeid) REFERENCES {wh_db}_{scale_factor}.DimTrade(tradeid),
-  CONSTRAINT factholdings_account_fk FOREIGN KEY (sk_accountid) REFERENCES {wh_db}_{scale_factor}.DimAccount(sk_accountid),
-  CONSTRAINT factholdings_customer_fk FOREIGN KEY (sk_customerid) REFERENCES {wh_db}_{scale_factor}.DimCustomer(sk_customerid),
-  CONSTRAINT factholdings_date_fk FOREIGN KEY (sk_dateid) REFERENCES {wh_db}_{scale_factor}.DimDate(sk_dateid),
-  CONSTRAINT factholdings_time_fk FOREIGN KEY (sk_timeid) REFERENCES {wh_db}_{scale_factor}.DimTime(sk_timeid)
+  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 )
 
 -- COMMAND ----------
@@ -379,11 +339,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   sk_accountid BIGINT NOT NULL COMMENT 'Surrogate key for AccountID',
   sk_dateid BIGINT NOT NULL COMMENT 'Surrogate key for the date',
   cash DOUBLE NOT NULL COMMENT 'Cash balance for the account after applying',
-  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
-  CONSTRAINT cashbalances_pk PRIMARY KEY(sk_customerid, sk_accountid, sk_dateid),
-  CONSTRAINT cashbalances_customer_fk FOREIGN KEY (sk_customerid) REFERENCES {wh_db}_{scale_factor}.DimCustomer(sk_customerid),
-  CONSTRAINT cashbalances_account_fk FOREIGN KEY (sk_accountid) REFERENCES {wh_db}_{scale_factor}.DimAccount(sk_accountid),
-  CONSTRAINT cashbalances_date_fk FOREIGN KEY (sk_dateid) REFERENCES {wh_db}_{scale_factor}.DimDate(sk_dateid)
+  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 )
 
 -- COMMAND ----------
@@ -402,11 +358,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   dayhigh DOUBLE NOT NULL COMMENT 'Highest price for the security on this day',
   daylow DOUBLE NOT NULL COMMENT 'Lowest price for the security on this day',
   volume INT NOT NULL COMMENT 'Trading volume of the security on this day',
-  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
-  CONSTRAINT fmh_pk PRIMARY KEY(sk_securityid, sk_dateid),
-  CONSTRAINT fmh_security_fk FOREIGN KEY (sk_securityid) REFERENCES {wh_db}_{scale_factor}.DimSecurity(sk_securityid),
-  CONSTRAINT fmh_company_fk FOREIGN KEY (sk_companyid) REFERENCES {wh_db}_{scale_factor}.DimCompany(sk_companyid),
-  CONSTRAINT fmh_date_fk FOREIGN KEY (sk_dateid) REFERENCES {wh_db}_{scale_factor}.DimDate(sk_dateid)
+  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 )
 
 -- COMMAND ----------
@@ -416,12 +368,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   sk_securityid BIGINT NOT NULL COMMENT 'Security listed on watch list',
   sk_dateid_dateplaced BIGINT NOT NULL COMMENT 'Date the watch list item was added',
   sk_dateid_dateremoved BIGINT COMMENT 'Date the watch list item was removed',
-  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
-  CONSTRAINT factwatches_pk PRIMARY KEY(sk_customerid, sk_securityid),
-  CONSTRAINT factwatches_customer_fk FOREIGN KEY (sk_customerid) REFERENCES {wh_db}_{scale_factor}.DimCustomer(sk_customerid),
-  CONSTRAINT factwatches_security_fk FOREIGN KEY (sk_securityid) REFERENCES {wh_db}_{scale_factor}.DimSecurity(sk_securityid),
-  CONSTRAINT factwatches_dateplaced_fk FOREIGN KEY (sk_dateid_dateplaced) REFERENCES {wh_db}_{scale_factor}.DimDate(sk_dateid),
-  CONSTRAINT factwatches_dateremoved_fk FOREIGN KEY (sk_dateid_dateremoved) REFERENCES {wh_db}_{scale_factor}.DimDate(sk_dateid)
+  batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 ) 
 
 -- COMMAND ----------
