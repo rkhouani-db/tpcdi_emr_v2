@@ -369,14 +369,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 );
 
-
-
--- MAGIC %md
--- MAGIC # CREATE VIEW s to simplify later stages
--- MAGIC Especially those called by external tools like dbt
-
-
-
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_BatchDate AS
 SELECT
   DATE(val [0]) batchdate,
@@ -497,7 +489,6 @@ SELECT
   nullif(nat_tx_id, '') nat_tx_id,
   batchid
 FROM c;
-
 
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_AccountIncremental AS
