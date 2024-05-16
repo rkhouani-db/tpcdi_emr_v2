@@ -15,8 +15,6 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   rectype STRING COMMENT 'Indicates the type of table into which this record will eventually be parsed: CMP FIN or SEC'
 ) PARTITIONED BY (rectype);
 
--- COMMAND ----------
-
  CREATE TABLE {wh_db}_{scale_factor}_stage.ProspectIncremental (
   agencyid STRING COMMENT 'Unique identifier from agency',
   lastname STRING COMMENT 'Last name',
@@ -45,7 +43,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was initially inserted'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.TaxRate (
   tx_id STRING NOT NULL COMMENT 'Tax rate code',
@@ -53,14 +51,14 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   tx_rate FLOAT NOT NULL COMMENT 'Tax rate'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.BatchDate (
   batchdate DATE NOT NULL COMMENT 'Batch date',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.DimDate (
   sk_dateid BIGINT NOT NULL COMMENT 'Surrogate key for the date',
@@ -83,7 +81,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   holidayflag BOOLEAN COMMENT 'Indicates holidays'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.DimTime (
   sk_timeid BIGINT NOT NULL COMMENT 'Surrogate key for the time',
@@ -98,14 +96,14 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   officehoursflag BOOLEAN COMMENT 'Indicates a time during office hours'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.StatusType (
   st_id STRING NOT NULL COMMENT 'Status code',
   st_name STRING NOT NULL COMMENT 'Status description'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.industry (
   in_id STRING NOT NULL COMMENT 'Industry code',
@@ -113,7 +111,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   in_sc_id STRING NOT NULL COMMENT 'Sector identifier'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.TradeType (
   tt_id STRING NOT NULL COMMENT 'Trade type code',
@@ -122,7 +120,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   tt_is_mrkt INT NOT NULL COMMENT 'Flag indicating a market order'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.DimBroker (
   sk_brokerid BIGINT NOT NULL COMMENT 'Surrogate key for broker',
@@ -140,7 +138,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.DimCustomer (
   sk_customerid BIGINT NOT NULL COMMENT 'Surrogate key for CustomerID',
@@ -178,7 +176,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 ) TBLPROPERTIES ('delta.dataSkippingNumIndexedCols' = 33);
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.DimCompany (
   sk_companyid BIGINT NOT NULL COMMENT 'Surrogate key for CompanyID',
@@ -203,7 +201,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.DimAccount (
   sk_accountid BIGINT NOT NULL COMMENT 'Surrogate key for AccountID',
@@ -219,7 +217,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 ); 
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.DimSecurity (
   sk_securityid BIGINT NOT NULL COMMENT 'Surrogate key for Symbol',
@@ -239,7 +237,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.Prospect (
   agencyid STRING NOT NULL COMMENT 'Unique identifier from agency',
@@ -271,7 +269,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   marketingnameplate STRING COMMENT 'For marketing purposes'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.Financial (
   sk_companyid BIGINT NOT NULL COMMENT 'Company SK.',
@@ -290,7 +288,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   fi_out_dilut BIGINT NOT NULL COMMENT 'Average number of shares outstanding (diluted).'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.DimTrade (
   tradeid INT NOT NULL COMMENT 'Trade identifier',
@@ -316,7 +314,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.FactHoldings (
   tradeid INT NOT NULL COMMENT 'Key for Orignial Trade Indentifier',
@@ -332,7 +330,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.FactCashBalances (
   sk_customerid BIGINT NOT NULL COMMENT 'Surrogate key for CustomerID',
@@ -342,7 +340,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.FactMarketHistory (
   sk_securityid BIGINT NOT NULL COMMENT 'Surrogate key for SecurityID',
@@ -361,7 +359,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 );
 
--- COMMAND ----------
+
 
  CREATE TABLE {wh_db}_{scale_factor}.FactWatches (
   sk_customerid BIGINT NOT NULL COMMENT 'Customer associated with watch list',
@@ -371,13 +369,13 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted'
 );
 
--- COMMAND ----------
+
 
 -- MAGIC %md
 -- MAGIC # CREATE VIEW s to simplify later stages
 -- MAGIC Especially those called by external tools like dbt
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_BatchDate AS
 SELECT
@@ -392,7 +390,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch*/BatchDate.txt`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_FinWire AS
 SELECT
@@ -401,7 +399,7 @@ SELECT
 FROM 
   text.`{tpcdi_directory}sf={scale_factor}/Batch1/FINWIRE[0-9][0-9][0-9][0-9]Q[1-4]`;
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_CustomerIncremental AS
 with c as (
@@ -500,7 +498,7 @@ SELECT
   batchid
 FROM c;
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_AccountIncremental AS
 SELECT
@@ -520,7 +518,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch*/Account.txt`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_TradeIncremental AS
 SELECT
@@ -546,7 +544,7 @@ FROM (
     substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
   FROM text.`{tpcdi_directory}/sf={scale_factor}/Batch[23]/Trade.txt`);
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_Trade AS
 SELECT
@@ -573,7 +571,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch1/Trade.txt`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_TradeHistory AS
 SELECT
@@ -588,7 +586,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch1/TradeHistory.txt`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_HR AS
 SELECT
@@ -609,7 +607,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch1/HR.csv`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_CashTransactionIncremental AS
 with CashTransactions as (
@@ -653,7 +651,7 @@ SELECT
   batchid
 FROM CashTransactions;  
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_HoldingHistory AS
 SELECT
@@ -670,7 +668,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch1/HoldingHistory.txt`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_HoldingIncremental AS
 SELECT
@@ -688,7 +686,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/HoldingHistory.txt`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_DailyMarketIncremental AS
 WITH dailymarkethistorical as (
@@ -752,7 +750,7 @@ select
   bigint(date_format(fiftytwoweeklow.dm_date, 'yyyyMMdd')) sk_fiftytwoweeklowdate
 from DailyMarket dm;
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_WatchHistory AS
 SELECT
@@ -769,7 +767,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch1/WatchHistory.txt`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_WatchIncremental AS
 SELECT
@@ -787,7 +785,7 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/WatchHistory.txt`
   );
 
--- COMMAND ----------
+
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_Prospect AS
 with p as (

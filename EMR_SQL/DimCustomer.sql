@@ -4,7 +4,7 @@
 -- CREATE WIDGET TEXT wh_db DEFAULT '';
 -- CREATE WIDGET TEXT catalog DEFAULT 'tpcdi';
 
--- COMMAND ----------
+
 
 INSERT INTO {wh_db}_{scale_factor}.DimCustomer
 WITH Customers as (
