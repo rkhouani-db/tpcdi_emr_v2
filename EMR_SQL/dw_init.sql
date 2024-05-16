@@ -385,7 +385,7 @@ FROM
   (
     SELECT
       split(value, "[|]") val,
-      substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+      substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) batchid 
     FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch*/BatchDate.txt`
   );
@@ -440,7 +440,7 @@ with c as (
     (
       SELECT
         split(value, "[|]") val,
-        substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+        substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) batchid 
       FROM
         text.`{tpcdi_directory}sf={scale_factor}/Batch*/Customer.txt`
     )
@@ -513,7 +513,7 @@ FROM
   (
     SELECT
       split(value, "[|]") val,
-      substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+      substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) batchid 
     FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch*/Account.txt`
   );
@@ -541,7 +541,7 @@ SELECT
 FROM (
   SELECT 
     split(value, "[|]") val, 
-    substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+    substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) batchid 
   FROM text.`{tpcdi_directory}/sf={scale_factor}/Batch[23]/Trade.txt`);
 
 
@@ -635,7 +635,7 @@ with CashTransactions as (
   FROM (
     SELECT
       split(value, "[|]") val,
-      substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+      substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) batchid 
     FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/CashTransaction.txt`
   )
@@ -681,7 +681,7 @@ FROM
   (
     SELECT
       split(value, "[|]") val,
-      substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+      substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) batchid 
     FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/HoldingHistory.txt`
   );
@@ -713,12 +713,12 @@ dailymarketincremental AS (
     CAST(val[5] AS DOUBLE) AS dm_high,
     CAST(val[6] AS DOUBLE) AS dm_low,
     CAST(val[7] AS INT) AS dm_vol,
-    CAST(substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) AS INT) AS batchid
+    CAST(substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) AS INT) AS batchid
   FROM
     (
       SELECT
         SPLIT(value, '[|]') AS val,
-        _metadata.file_path
+        INPUT__FILE__NAME()
       FROM
         text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/DailyMarket.txt`
     )
@@ -786,7 +786,7 @@ FROM
   (
     SELECT
       split(value, "[|]") val,
-      substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+      substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) batchid 
     FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/WatchHistory.txt`
   );
@@ -801,7 +801,7 @@ with p as (
   FROM (
     SELECT
       split(value, "[,]") val,
-      substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+      substring(INPUT__FILE__NAME() FROM (position('/Batch', INPUT__FILE__NAME()) + 6) FOR 1) batchid 
     FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch*/Prospect.csv`
   )
