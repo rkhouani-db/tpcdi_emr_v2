@@ -21,12 +21,12 @@ WITH account AS (
     taxstatus,
     brokerid,
     decode(a.status, 
-      'ACTV',	'Active',
-      'CMPT','Completed',
-      'CNCL','Canceled',
-      'PNDG','Pending',
-      'SBMT','Submitted',
-      'INAC','Inactive') status,
+      'ACTV', 'Active',
+      'CMPT', 'Completed',
+      'CNCL', 'Canceled',
+      'PNDG', 'Pending',
+      'SBMT', 'Submitted',
+      'INAC', 'Inactive') status,
     TIMESTAMP(bd.batchdate) update_ts,
     a.batchid
   FROM
@@ -74,11 +74,15 @@ account_final AS (
       date('9999-12-31')
     ) enddate,
     batchid
-  FROM account a
+  FROM account
 ),
 account_cust_updates AS (
   SELECT
-    a.* except(effectivedate, enddate, customerid),
+    a.accountid,
+    a.accountdesc,
+    a.taxstatus,
+    a.status,
+    a.batchid,
     c.sk_customerid,
     if(
       a.effectivedate < c.effectivedate,

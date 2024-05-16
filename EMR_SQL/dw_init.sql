@@ -687,68 +687,74 @@ FROM
   );
 
 
-
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_DailyMarketIncremental AS
-WITH dailymarkethistorical as (
+WITH dailymarkethistorical AS (
   SELECT
-    try_cast(val[0] as DATE) dm_date,
-    val[1] dm_s_symb,
-    try_cast(val[2] as DOUBLE) dm_close,
-    try_cast(val[3] as DOUBLE) dm_high,
-    try_cast(val[4] as DOUBLE) dm_low,
-    try_cast(val[5] as INT) dm_vol,
-    1 batchid
+    CAST(val[0] AS DATE) AS dm_date,
+    val[1] AS dm_s_symb,
+    CAST(val[2] AS DOUBLE) AS dm_close,
+    CAST(val[3] AS DOUBLE) AS dm_high,
+    CAST(val[4] AS DOUBLE) AS dm_low,
+    CAST(val[5] AS INT) AS dm_vol,
+    1 AS batchid
   FROM
     (
       SELECT
-        split(value, "[|]") val
+        SPLIT(value, '[|]') AS val
       FROM
         text.`{tpcdi_directory}sf={scale_factor}/Batch1/DailyMarket.txt`
     )
 ),
-dailymarketincremental as (
+dailymarketincremental AS (
   SELECT
-    try_cast(val[2] as DATE) dm_date,
-    val[3] dm_s_symb,
-    try_cast(val[4] as DOUBLE) dm_close,
-    try_cast(val[5] as DOUBLE) dm_high,
-    try_cast(val[6] as DOUBLE) dm_low,
-    try_cast(val[7] as INT) dm_vol,
-    INT(batchid) batchid
+    CAST(val[2] AS DATE) AS dm_date,
+    val[3] AS dm_s_symb,
+    CAST(val[4] AS DOUBLE) AS dm_close,
+    CAST(val[5] AS DOUBLE) AS dm_high,
+    CAST(val[6] AS DOUBLE) AS dm_low,
+    CAST(val[7] AS INT) AS dm_vol,
+    CAST(substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) AS INT) AS batchid
   FROM
     (
       SELECT
-        split(value, "[|]") val,
-        substring(_metadata.file_path FROM (position('/Batch', _metadata.file_path) + 6) FOR 1) batchid 
+        SPLIT(value, '[|]') AS val,
+        _metadata.file_path
       FROM
         text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/DailyMarket.txt`
     )
 ),
-DailyMarket as (
+DailyMarket AS (
   SELECT
     dm.*,
-    min_by(struct(dm_low, dm_date), dm_low) OVER (
+    MIN_BY(STRUCT(dm_low, dm_date), dm_low) OVER (
       PARTITION BY dm_s_symb
       ORDER BY dm_date ASC ROWS BETWEEN 364 PRECEDING AND CURRENT ROW
-    ) fiftytwoweeklow,
-    max_by(struct(dm_high, dm_date), dm_high) OVER (
-      PARTITION by dm_s_symb
+    ) AS fiftytwoweeklow,
+    MAX_BY(STRUCT(dm_high, dm_date), dm_high) OVER (
+      PARTITION BY dm_s_symb
       ORDER BY dm_date ASC ROWS BETWEEN 364 PRECEDING AND CURRENT ROW
-    ) fiftytwoweekhigh
+    ) AS fiftytwoweekhigh
   FROM
     (
       SELECT * FROM dailymarkethistorical
       UNION ALL
       SELECT * FROM dailymarketincremental
-    ) dm
+    ) AS dm
 )
-select
-  dm.* except(fiftytwoweeklow, fiftytwoweekhigh),
-  fiftytwoweekhigh.dm_high fiftytwoweekhigh,
-  bigint(date_format(fiftytwoweekhigh.dm_date, 'yyyyMMdd')) sk_fiftytwoweekhighdate,
-  fiftytwoweeklow.dm_low fiftytwoweeklow,
-  bigint(date_format(fiftytwoweeklow.dm_date, 'yyyyMMdd')) sk_fiftytwoweeklowdate
-from DailyMarket dm;
+SELECT
+  dm.dm_date,
+  dm.dm_s_symb,
+  dm.dm_close,
+  dm.dm_high,
+  dm.dm_low,
+  dm.dm_vol,
+  dm.batchid,
+  fiftytwoweekhigh.dm_high AS fiftytwoweekhigh,
+  CAST(DATE_FORMAT(fiftytwoweekhigh.dm_date, 'yyyyMMdd') AS BIGINT) AS sk_fiftytwoweekhighdate,
+  fiftytwoweeklow.dm_low AS fiftytwoweeklow,
+  CAST(DATE_FORMAT(fiftytwoweeklow.dm_date, 'yyyyMMdd') AS BIGINT) AS sk_fiftytwoweeklowdate
+FROM DailyMarket dm;
+
 
 
 

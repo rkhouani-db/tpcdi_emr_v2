@@ -32,15 +32,23 @@ dc as (
 ),
 SEC_prep AS (
   SELECT 
-    SEC.* except(Status, conameorcik),
+    effectivedate,
+    Symbol,
+    issue,
+    Name,
+    exchangeid,
+    sharesoutstanding,
+    firsttrade,
+    firsttradeonexchange,
+    Dividend,
     nvl(string(try_cast(conameorcik as bigint)), conameorcik) conameorcik,
     decode(status, 
-      'ACTV',	'Active',
-      'CMPT','Completed',
-      'CNCL','Canceled',
-      'PNDG','Pending',
-      'SBMT','Submitted',
-      'INAC','Inactive') status,
+      'ACTV', 'Active',
+      'CMPT', 'Completed',
+      'CNCL', 'Canceled',
+      'PNDG', 'Pending',
+      'SBMT', 'Submitted',
+      'INAC', 'Inactive') status,
     coalesce(
       lead(effectivedate) OVER (
         PARTITION BY symbol
