@@ -80,6 +80,7 @@ account_cust_updates AS (
   SELECT
     a.accountid,
     a.accountdesc,
+    a.brokerid,  -- Ensure brokerid is included here
     a.taxstatus,
     a.status,
     a.batchid,
