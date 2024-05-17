@@ -49,5 +49,4 @@ LEFT JOIN cust c
     and upper(p.FirstName) = upper(c.firstname)
     and upper(p.AddressLine1) = upper(c.addressline1)
     and upper(nvl(p.addressline2, '')) = upper(nvl(c.addressline2, ''))
-    and upper(p.PostalCode) = upper(c.postalcode)
-;
+    and upper(p.PostalCode) = upper(c.postalcode);

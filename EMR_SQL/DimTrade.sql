@@ -147,5 +147,4 @@ JOIN {wh_db}_{scale_factor}.DimAccount da
   ON 
     trade.t_ca_id = da.accountid 
     AND date(create_ts) >= da.effectivedate 
-    AND date(create_ts) < da.enddate
-;
+    AND date(create_ts) < da.enddate;

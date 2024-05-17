@@ -55,4 +55,3 @@ ON
   FIN.conameorcik = dc.conameorcik 
   AND date(PTS) >= dc.effectivedate 
   AND date(PTS) < dc.enddate;
-;

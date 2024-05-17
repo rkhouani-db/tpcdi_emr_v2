@@ -30,5 +30,4 @@ JOIN {wh_db}_{scale_factor}.DimCustomer c
   ON
     wh.customerid = c.customerid
     AND wh.dateplaced >= c.effectivedate 
-    AND wh.dateplaced < c.enddate
-;
+    AND wh.dateplaced < c.enddate;

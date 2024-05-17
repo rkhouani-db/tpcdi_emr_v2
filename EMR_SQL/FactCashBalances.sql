@@ -11,5 +11,4 @@ JOIN {wh_db}_{scale_factor}.DimAccount a
   ON 
     c.accountid = a.accountid
     AND c.datevalue >= a.effectivedate 
-    AND c.datevalue < a.enddate
-;
+    AND c.datevalue < a.enddate;

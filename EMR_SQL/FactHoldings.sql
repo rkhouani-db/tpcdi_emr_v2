@@ -18,5 +18,4 @@ SELECT
   h.batchid
 FROM Holdings h
   JOIN {wh_db}_{scale_factor}.DimTrade dt 
-    ON tradeid = hh_t_id
-;
+    ON tradeid = hh_t_id;
