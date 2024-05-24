@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   numbercreditcards INT COMMENT 'Credit cards',
   networth INT COMMENT 'Estimated total net worth',
   marketingnameplate STRING COMMENT 'Marketing nameplate',
-  recordbatchid STRING NOT NULL COMMENT 'Batch ID when this record last inserted',
+  recordbatchid INT NOT NULL COMMENT 'Batch ID when this record last inserted',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was initially inserted'
 );
 
@@ -788,7 +788,7 @@ CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_Prospect AS
 with p as (
   select 
     max_by(array_append(val, batchid), batchid) val,
-    min(batchid) batchid
+    INT(min(batchid)) batchid
   FROM (
     SELECT
       split(value, "[,]") val,
@@ -845,7 +845,7 @@ SELECT
         if(age < 25 and networth > 1000000, "Inherited+",""))
       -1),
     NULL) marketingnameplate,
-  val[22] recordbatchid,
+  INT(val[22]) recordbatchid,
   batchid
 FROM p
 where val[22] = 3;
