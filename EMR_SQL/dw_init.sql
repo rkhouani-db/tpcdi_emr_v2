@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   numbercreditcards INT COMMENT 'Credit cards',
   networth INT COMMENT 'Estimated total net worth',
   marketingnameplate STRING COMMENT 'Marketing nameplate',
-  recordbatchid INT NOT NULL COMMENT 'Batch ID when this record last inserted',
+  recordbatchid STRING NOT NULL COMMENT 'Batch ID when this record last inserted',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was initially inserted'
 );
 
