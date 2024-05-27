@@ -783,69 +783,71 @@ FROM
   );
 
 
-
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_Prospect AS
-with p as (
-  select 
-    max_by(array_append(val, batchid), batchid) val,
-    INT(min(batchid)) batchid
+WITH p AS (
+  SELECT 
+    val,
+    MAX(batchid) AS batchid
   FROM (
     SELECT
-      split(value, "[,]") val,
-      substring(input_file_name()  FROM (position('/Batch', input_file_name() ) + 6) FOR 1) batchid 
+      SPLIT(value, "[,]") AS val,
+      CAST(SUBSTRING(input_file_name() FROM (POSITION('/Batch', input_file_name()) + 6) FOR 1) AS INT) AS batchid
     FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch*/Prospect.csv`
-  )
-  group by val[0]
+  ) AS split_values
+  GROUP BY val[0]
 )
 SELECT
-  val[0] agencyid,
-  val[1] lastname,
-  val[2] firstname,
-  val[3] middleinitial,
-  val[4] gender,
-  val[5] addressline1,
-  val[6] addressline2,
-  val[7] postalcode,
-  val[8] city,
-  val[9] state,
-  val[10] country,
-  val[11] phone,
-  try_cast(val[12] as BIGINT) income,
-  try_cast(val[13] as int) numbercars,
-  try_cast(val[14] as int) numberchildren,
-  val[15] maritalstatus,
-  try_cast(val[16] as int) age,
-  try_cast(val[17] as int) creditrating,
-  val[18] ownorrentflag,
-  val[19] employer,
-  try_cast(val[20] as int) numbercreditcards,
-  try_cast(val[21] as int) networth,
-  if(
-    isnotnull(
-      if(networth > 1000000 or income > 200000,"HighValue+","") || 
-      if(numberchildren > 3 or numbercreditcards > 5,"Expenses+","") ||
-      if(age > 45, "Boomer+", "") ||
-      if(income < 50000 or creditrating < 600 or networth < 100000, "MoneyAlert+","") ||
-      if(numbercars > 3 or numbercreditcards > 7, "Spender+","") ||
-      if(age < 25 and networth > 1000000, "Inherited+","")),
-    left(
-      if(networth > 1000000 or income > 200000,"HighValue+","") || 
-      if(numberchildren > 3 or numbercreditcards > 5,"Expenses+","") ||
-      if(age > 45, "Boomer+", "") ||
-      if(income < 50000 or creditrating < 600 or networth < 100000, "MoneyAlert+","") ||
-      if(numbercars > 3 or numbercreditcards > 7, "Spender+","") ||
-      if(age < 25 and networth > 1000000, "Inherited+",""),
-      length(
-        if(networth > 1000000 or income > 200000,"HighValue+","") || 
-        if(numberchildren > 3 or numbercreditcards > 5,"Expenses+","") ||
-        if(age > 45, "Boomer+", "") ||
-        if(income < 50000 or creditrating < 600 or networth < 100000, "MoneyAlert+","") ||
-        if(numbercars > 3 or numbercreditcards > 7, "Spender+","") ||
-        if(age < 25 and networth > 1000000, "Inherited+",""))
-      -1),
-    NULL) marketingnameplate,
-  INT(val[22]) recordbatchid,
-  batchid
+  p.val[0] AS agencyid,
+  p.val[1] AS lastname,
+  p.val[2] AS firstname,
+  p.val[3] AS middleinitial,
+  p.val[4] AS gender,
+  p.val[5] AS addressline1,
+  p.val[6] AS addressline2,
+  p.val[7] AS postalcode,
+  p.val[8] AS city,
+  p.val[9] AS state,
+  p.val[10] AS country,
+  p.val[11] AS phone,
+  TRY_CAST(p.val[12] AS BIGINT) AS income,
+  TRY_CAST(p.val[13] AS INT) AS numbercars,
+  TRY_CAST(p.val[14] AS INT) AS numberchildren,
+  p.val[15] AS maritalstatus,
+  TRY_CAST(p.val[16] AS INT) AS age,
+  TRY_CAST(p.val[17] AS INT) AS creditrating,
+  p.val[18] AS ownorrentflag,
+  p.val[19] AS employer,
+  TRY_CAST(p.val[20] AS INT) AS numbercreditcards,
+  TRY_CAST(p.val[21] AS INT) AS networth,
+  IF(
+    ISNOTNULL(
+      IF(p.val[21] > 1000000 OR p.val[12] > 200000, "HighValue+", "") || 
+      IF(p.val[14] > 3 OR p.val[20] > 5, "Expenses+", "") ||
+      IF(p.val[16] > 45, "Boomer+", "") ||
+      IF(p.val[12] < 50000 OR p.val[17] < 600 OR p.val[21] < 100000, "MoneyAlert+", "") ||
+      IF(p.val[13] > 3 OR p.val[20] > 7, "Spender+", "") ||
+      IF(p.val[16] < 25 AND p.val[21] > 1000000, "Inherited+", "")
+    ),
+    LEFT(
+      IF(p.val[21] > 1000000 OR p.val[12] > 200000, "HighValue+", "") || 
+      IF(p.val[14] > 3 OR p.val[20] > 5, "Expenses+", "") ||
+      IF(p.val[16] > 45, "Boomer+", "") ||
+      IF(p.val[12] < 50000 OR p.val[17] < 600 OR p.val[21] < 100000, "MoneyAlert+", "") ||
+      IF(p.val[13] > 3 OR p.val[20] > 7, "Spender+", "") ||
+      IF(p.val[16] < 25 AND p.val[21] > 1000000, "Inherited+", ""),
+      LENGTH(
+        IF(p.val[21] > 1000000 OR p.val[12] > 200000, "HighValue+", "") || 
+        IF(p.val[14] > 3 OR p.val[20] > 5, "Expenses+", "") ||
+        IF(p.val[16] > 45, "Boomer+", "") ||
+        IF(p.val[12] < 50000 OR p.val[17] < 600 OR p.val[21] < 100000, "MoneyAlert+", "") ||
+        IF(p.val[13] > 3 OR p.val[20] > 7, "Spender+", "") ||
+        IF(p.val[16] < 25 AND p.val[21] > 1000000, "Inherited+", "")
+      ) - 1
+    ),
+    NULL
+  ) AS marketingnameplate,
+  TRY_CAST(p.val[22] AS INT) AS recordbatchid,
+  p.batchid
 FROM p
-where val[22] = 3;
+WHERE TRY_CAST(p.val[22] AS INT) = 3;
