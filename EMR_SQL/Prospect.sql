@@ -1,4 +1,4 @@
-INSERT OVERWRITE {wh_db}_{scale_factor}.Prospect
+INSERT INTO {wh_db}_{scale_factor}.Prospect
 with cust as (
   SELECT 
     customerid,

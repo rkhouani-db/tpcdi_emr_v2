@@ -1,4 +1,6 @@
-CREATE TABLE IF NOT EXISTS {wh_db}_{scale_factor}_stage.CustomerMgmt PARTITIONED BY (ActionType) AS 
+CREATE TABLE IF NOT EXISTS {wh_db}_{scale_factor}_stage.CustomerMgmt PARTITIONED BY (ActionType)
+Location  's3://{tpcdi_directory}/databases/default_{scale_factor}_stage/{table}';
+AS 
 SELECT 
   try_cast(Customer._C_ID as BIGINT) customerid, 
   try_cast(Customer.Account._CA_ID as BIGINT) accountid,

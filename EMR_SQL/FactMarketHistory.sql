@@ -1,4 +1,4 @@
-INSERT OVERWRITE {wh_db}_{scale_factor}.FactMarketHistory
+INSERT INTO {wh_db}_{scale_factor}.FactMarketHistory
 with CompanyFinancialsStg as (
   SELECT
     sk_companyid,
