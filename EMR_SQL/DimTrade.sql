@@ -1,4 +1,4 @@
-INSERT OVERWRITE {wh_db}_{scale_factor}.DimTrade
+INSERT INTO {wh_db}_{scale_factor}.DimTrade
 WITH TradeIncremental AS (
   SELECT
     min(cdc_flag) cdc_flag,

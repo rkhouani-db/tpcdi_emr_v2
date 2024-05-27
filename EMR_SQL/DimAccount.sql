@@ -1,4 +1,4 @@
-INSERT OVERWRITE {wh_db}_{scale_factor}.DimAccount
+INSERT INTO {wh_db}_{scale_factor}.DimAccount
 WITH account AS (
   SELECT
     accountid,
