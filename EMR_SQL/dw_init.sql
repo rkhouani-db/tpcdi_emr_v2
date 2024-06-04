@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.BatchDate;
   value STRING COMMENT 'Pre-parsed String Values of all FinWire files',
   rectype STRING COMMENT 'Indicates the type of table into which this record will eventually be parsed: CMP FIN or SEC'
 ) PARTITIONED BY (rectype)
-Location '{tpcdi_directory}databases/default_{scale_factor}_stage/FinWire';
+Location '{tpcdi_directory}databases/{wh_db}_{scale_factor}_stage/FinWire';
 
 
  CREATE TABLE {wh_db}_{scale_factor}_stage.ProspectIncremental (
@@ -44,7 +44,7 @@ Location '{tpcdi_directory}databases/default_{scale_factor}_stage/FinWire';
   recordbatchid INT NOT NULL COMMENT 'Batch ID when this record last inserted',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was initially inserted'
 )
-Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncremental'
+Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}_stage/ProspectIncremental'
 ;
 
 
@@ -52,14 +52,14 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   tx_id STRING NOT NULL COMMENT 'Tax rate code',
   tx_name STRING NOT NULL COMMENT 'Tax rate description',
   tx_rate FLOAT NOT NULL COMMENT 'Tax rate') 
-  Location '{tpcdi_directory}/databases/default_{scale_factor}/TaxRate';
+  Location '{tpcdi_directory}/databases/{wh_db}_{scale_factor}/TaxRate';
 
 
 
  CREATE TABLE {wh_db}_{scale_factor}.BatchDate (
   batchdate DATE NOT NULL COMMENT 'Batch date',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/BatchDate';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/BatchDate';
 
 
 
@@ -82,7 +82,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   fiscalqtrid INT NOT NULL COMMENT 'Fiscal quarter as a number e.g. 20051',
   fiscalqtrdesc STRING NOT NULL COMMENT 'Fiscal quarter as text e.g. 2005 Q1',
   holidayflag BOOLEAN COMMENT 'Indicates holidays')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/DimDate';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/DimDate';
 
 
 
@@ -97,14 +97,14 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   seconddesc STRING NOT NULL COMMENT 'Second as text e.g. 01:23:45',
   markethoursflag BOOLEAN COMMENT 'Indicates a time during market hours',
   officehoursflag BOOLEAN COMMENT 'Indicates a time during office hours')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/DimTime';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/DimTime';
 
 
 
  CREATE TABLE {wh_db}_{scale_factor}.StatusType (
   st_id STRING NOT NULL COMMENT 'Status code',
   st_name STRING NOT NULL COMMENT 'Status description') 
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/StatusType';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/StatusType';
 
 
 
@@ -112,7 +112,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   in_id STRING NOT NULL COMMENT 'Industry code',
   in_name STRING NOT NULL COMMENT 'Industry description',
   in_sc_id STRING NOT NULL COMMENT 'Sector identifier')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/industry';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/industry';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.TradeType (
@@ -120,7 +120,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   tt_name STRING NOT NULL COMMENT 'Trade type description',
   tt_is_sell INT NOT NULL COMMENT 'Flag indicating a sale',
   tt_is_mrkt INT NOT NULL COMMENT 'Flag indicating a market order')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/TradeType';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/TradeType';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.DimBroker (
@@ -137,7 +137,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/DimBroker';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/DimBroker';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.DimCustomer (
@@ -174,7 +174,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/DimCustomer'
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/DimCustomer'
   TBLPROPERTIES ('delta.dataSkippingNumIndexedCols' = 33);
 
 
@@ -200,7 +200,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/DimCompany';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/DimCompany';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.DimAccount (
@@ -215,7 +215,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/DimAccount'; 
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/DimAccount'; 
 
 
 
@@ -235,7 +235,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted',
   effectivedate DATE NOT NULL COMMENT 'Beginning of date range when this record was the current record',
   enddate DATE NOT NULL COMMENT 'Ending of date range when this record was the current record. A record that is not expired will use the date 9999-12-31.')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/DimSecurity';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/DimSecurity';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.Prospect (
@@ -266,7 +266,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   numbercreditcards INT COMMENT 'Credit cards',
   networth INT COMMENT 'Estimated total net worth',
   marketingnameplate STRING COMMENT 'For marketing purposes')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/Prospect';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/Prospect';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.Financial (
@@ -284,7 +284,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   fi_liability DOUBLE NOT NULL COMMENT 'Value of total liabilities at the end of the quarter.',
   fi_out_basic BIGINT NOT NULL COMMENT 'Average number of shares outstanding (basic).',
   fi_out_dilut BIGINT NOT NULL COMMENT 'Average number of shares outstanding (diluted).')
-  Location '{tpcdi_directory}databases/default_{scale_factor}/Financial';
+  Location '{tpcdi_directory}databases/{wh_db}_{scale_factor}/Financial';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.DimTrade (
@@ -309,7 +309,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   commission DOUBLE COMMENT 'Commission earned on this trade',
   tax DOUBLE COMMENT 'Amount of tax due on this trade',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/DimTrade';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/DimTrade';
 
  CREATE TABLE {wh_db}_{scale_factor}.FactHoldings (
   tradeid INT NOT NULL COMMENT 'Key for Orignial Trade Indentifier',
@@ -323,7 +323,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   currentprice DOUBLE COMMENT 'Unit price of this security for the current trade',
   currentholding INT NOT NULL COMMENT 'Quantity of a security held after the current trade.',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/FactHoldings';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/FactHoldings';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.FactCashBalances (
@@ -332,7 +332,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   sk_dateid BIGINT NOT NULL COMMENT 'Surrogate key for the date',
   cash DOUBLE NOT NULL COMMENT 'Cash balance for the account after applying',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/FactCashBalances';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/FactCashBalances';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.FactMarketHistory (
@@ -350,7 +350,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   daylow DOUBLE NOT NULL COMMENT 'Lowest price for the security on this day',
   volume INT NOT NULL COMMENT 'Trading volume of the security on this day',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/FactMarketHistory';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/FactMarketHistory';
 
 
  CREATE TABLE {wh_db}_{scale_factor}.FactWatches (
@@ -359,7 +359,7 @@ Location  '{tpcdi_directory}databases/default_{scale_factor}_stage/ProspectIncre
   sk_dateid_dateplaced BIGINT NOT NULL COMMENT 'Date the watch list item was added',
   sk_dateid_dateremoved BIGINT COMMENT 'Date the watch list item was removed',
   batchid INT NOT NULL COMMENT 'Batch ID when this record was inserted')
-  Location  '{tpcdi_directory}databases/default_{scale_factor}/FactWatches';
+  Location  '{tpcdi_directory}databases/{wh_db}_{scale_factor}/FactWatches';
 
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_BatchDate AS
 SELECT
@@ -738,9 +738,6 @@ SELECT
   CAST(DATE_FORMAT(fiftytwoweeklow.dm_date, 'yyyyMMdd') AS BIGINT) AS sk_fiftytwoweeklowdate
 FROM DailyMarket dm;
 
-
-
-
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_WatchHistory AS
 SELECT
   try_cast(val[0] as BIGINT) w_c_id,
@@ -756,8 +753,6 @@ FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch1/WatchHistory.txt`
   );
 
-
-
 CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_WatchIncremental AS
 SELECT
   try_cast(val[2] as BIGINT) w_c_id,
@@ -771,20 +766,17 @@ FROM
       split(value, "[|]") val,
       substring(input_file_name()  FROM (position('/Batch', input_file_name() ) + 6) FOR 1) batchid 
     FROM
-      text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/WatchHistory.txt`
-  );
+      text.`{tpcdi_directory}sf={scale_factor}/Batch[23]/WatchHistory.txt`);
 
-
-
-CREATE VIEW IF NOT EXISTS {wh_db}_{scale_factor}_stage.v_Prospect AS
+CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_Prospect AS
 with p as (
   select 
-    max_by(array_append(val, batchid), batchid) val,
-    INT(min(batchid)) batchid
+    max_by(array_append(val, array(batchid)), batchid) val,
+    min(batchid) batchid
   FROM (
     SELECT
       split(value, "[,]") val,
-      substring(input_file_name()  FROM (position('/Batch', input_file_name() ) + 6) FOR 1) batchid 
+      substring(input_file_name() FROM (position('/Batch', input_file_name()) + 6) FOR 1) batchid 
     FROM
       text.`{tpcdi_directory}sf={scale_factor}/Batch*/Prospect.csv`
   )
