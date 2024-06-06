@@ -1,13 +1,13 @@
 INSERT INTO {wh_db}_{scale_factor}.DimCompany
 WITH cmp as (
   SELECT
-    try_to_timestamp(substring(value, 1, 15), 'yyyyMMdd-HHmmss') AS PTS,
+    to_timestamp(substring(value, 1, 15), 'yyyyMMdd-HHmmss') AS PTS,
     trim(substring(value, 19, 60)) AS CompanyName,
     trim(substring(value, 79, 10)) AS CIK,
     trim(substring(value, 89, 4)) AS Status,
     trim(substring(value, 93, 2)) AS IndustryID,
     trim(substring(value, 95, 4)) AS SPrating,
-    to_date(try_to_timestamp(substring(value, 99, 8), 'yyyyMMdd')) AS FoundingDate,
+    to_date(to_timestamp(substring(value, 99, 8), 'yyyyMMdd')) AS FoundingDate,
     trim(substring(value, 107, 80)) AS AddrLine1,
     trim(substring(value, 187, 80)) AS AddrLine2,
     trim(substring(value, 267, 12)) AS PostalCode,
