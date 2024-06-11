@@ -1,8 +1,8 @@
 SET hive.exec.dynamic.partition.mode = "nonstrict";
 
 DROP DATABASE IF EXISTS {wh_db}_{scale_factor} cascade;
-CREATE DATABASE {wh_db}_{scale_factor};
-CREATE DATABASE IF NOT EXISTS {wh_db}_{scale_factor}_stage;
+CREATE DATABASE {wh_db}_{scale_factor} LOCATION '{tpcdi_directory}databases/{wh_db}_{scale_factor}';
+CREATE DATABASE IF NOT EXISTS {wh_db}_{scale_factor}_stage LOCATION '{tpcdi_directory}databases/{wh_db}_{scale_factor}_stage';
 
 DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.ProspectIncremental;
 DROP TABLE IF EXISTS {wh_db}_{scale_factor}_stage.Finwire;
@@ -771,7 +771,7 @@ FROM
 CREATE OR REPLACE VIEW {wh_db}_{scale_factor}_stage.v_Prospect AS
 with p as (
   select 
-    max_by(array_append(val, array(batchid)), batchid) val,
+    max_by(array_append(val, batchid), batchid) val,
     min(batchid) batchid
   FROM (
     SELECT
@@ -830,6 +830,6 @@ SELECT
       -1),
     NULL) marketingnameplate,
   INT(val[22]) recordbatchid,
-  batchid
+  INT(batchid) batchid
 FROM p
 where val[22] = 3;
